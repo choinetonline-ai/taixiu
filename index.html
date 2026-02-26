@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Tài Xỉu Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{margin:0;background:#111;color:#fff;font-family:Arial;text-align:center}
+.app{max-width:360px;margin:30px auto;background:#1e1e2f;border-radius:15px;padding:20px}
+button{padding:12px 20px;font-size:16px;border:none;border-radius:8px;margin:5px}
+.tai{background:#2ecc71}.xiu{background:#e74c3c}.roll{background:#3498db;width:100%}
+.dice{font-size:40px;margin:15px}
+.money{color:#ffd700;font-size:18px}
+</style>
+</head>
+<body>
+
+<div class="app">
+<h2>🎲 TÀI XỈU</h2>
+<div class="money">💰 Tiền: <span id="money">1000000</span></div>
+
+<input id="bet" type="number" value="100000" style="width:100%;padding:8px">
+
+<div>
+<button class="tai" onclick="choose('tai')">TÀI</button>
+<button class="xiu" onclick="choose('xiu')">XỈU</button>
+</div>
+
+<div class="dice" id="dice">🎲 🎲 🎲</div>
+<button class="roll" onclick="roll()">LẮC</button>
+<div id="result"></div>
+</div>
+
+<script>
+let money=1000000,choice="";
+function choose(c){choice=c}
+function rand(){return Math.floor(Math.random()*6)+1}
+function roll(){
+ if(!choice)return alert("Chọn Tài hoặc Xỉu");
+ let bet=+document.getElementById("bet").value;
+ if(bet>money)return alert("Không đủ tiền");
+ dice.innerHTML="🎲 🎲 🎲"; result.innerHTML="Đang lắc...";
+ setTimeout(()=>{
+  let d1=rand(),d2=rand(),d3=rand();
+  let total=d1+d2+d3;
+  let out=total>=11?"tai":"xiu";
+  dice.innerHTML=`🎲${d1} 🎲${d2} 🎲${d3}`;
+  if(out==choice){money+=bet;result.innerHTML="✅ Thắng "+total}
+  else{money-=bet;result.innerHTML="❌ Thua "+total}
+  document.getElementById("money").innerText=money;
+ },1000);
+}
+</script>
+
+</body>
+</html>
